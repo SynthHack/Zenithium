@@ -1,0 +1,335 @@
+mkdir my-anime-series-games
+cd my-anime-series-games
+type nul > styles.css
+type nul > script.js
+type nul > data.js
+type nul > main.c
+type nul > data.h
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anime, Series, and Games</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Anime, Series, and Games</h1>
+        <nav>
+            <ul>
+                <li><a href="#" onclick="showSection('anime')">Anime</a></li>
+                <li><a href="#" onclick="showSection('series')">Series</a></li>
+                <li><a href="#" onclick="showSection('games')">Games</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section id="anime">
+            <h2>Anime</h2>
+            <div id="anime-list" class="grid"></div>
+        </section>
+        <section id="series" style="display: none;">
+            <h2>Series</h2>
+            <div id="series-list" class="grid"></div>
+        </section>
+        <section id="games" style="display: none;">
+            <h2>Games</h2>
+            <div id="games-list" class="grid"></div>
+        </section>
+        <section id="episodes" style="display: none;">
+            <h2>Episodes</h2>
+            <div id="episode-list" class="grid"></div>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 Anime, Series, and Games. All rights reserved.</p>
+    </footer>
+    <script src="data.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #222;
+    color: #eee;
+}
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 0;
+    text-align: center;
+}
+header h1 {
+    margin: 0;
+}
+nav ul {
+    list-style-type: none;
+    padding: 0;
+}
+nav ul li {
+    display: inline;
+    margin: 0 15px;
+}
+nav ul li a {
+    color: #fff;
+    text-decoration: none;
+}
+main {
+    padding: 20px;
+}
+.grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+.card {
+    background-color: #444;
+    border: 1px solid #666;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    width: calc(33.333% - 20px);
+}
+.card img {
+    width: 100%;
+    height: auto;
+}
+.card h3 {
+    margin: 10px;
+    color: #fff;
+}
+.card p {
+    margin: 10px;
+    color: #ccc;
+}
+footer {
+    background-color: #333;
+    color: #ccc;
+    text-align: center;
+    padding: 10px 0;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+}
+document.addEventListener('DOMContentLoaded', function() {
+    const animeList = document.getElementById('anime-list');
+    const seriesList = document.getElementById('series-list');
+    const gamesList = document.getElementById('games-list');
+    const episodeList = document.getElementById('episode-list');
+
+    function createCard(item) {
+        const card = document.createElement('div');
+        card.className = 'card';
+        const img = document.createElement('img');
+        img.src = item.image;
+        img.alt = item.title;
+        const title = document.createElement('h3');
+        title.textContent = item.title;
+        const description = document.createElement('p');
+        description.textContent = item.description;
+        card.appendChild(img);
+        card.appendChild(title);
+        card.appendChild(description);
+        return card;
+    }
+
+    function showSection(section) {
+        document.getElementById('anime').style.display = section === 'anime' ? 'block' : 'none';
+        document.getElementById('series').style.display = section === 'series' ? 'block' : 'none';
+        document.getElementById('games').style.display = section === 'games' ? 'block' : 'none';
+        document.getElementById('episodes').style.display = 'none';
+    }
+
+    data.anime.forEach(anime => {
+        animeList.appendChild(createCard(anime));
+    });
+
+    data.series.forEach(series => {
+        const seriesCard = createCard(series);
+        seriesCard.addEventListener('click', function() {
+            showSection('episodes');
+            episodeList.innerHTML = '';
+            series.episodes.forEach(episode => {
+                const episodeCard = createCard(episode);
+                episodeCard.addEventListener('click', function() {
+                    alert(`Now playing: ${episode.title}`);
+                });
+                episodeList.appendChild(episodeCard);
+            });
+        });
+        seriesList.appendChild(seriesCard);
+    });
+
+    data.games.forEach(game => {
+        const gameCard = createCard(game);
+        gameCard.addEventListener('click', function() {
+            alert(`Playing ${game.title}!`);
+        });
+        gamesList.appendChild(gameCard);
+    });
+});
+const data = {
+    anime: [
+        { title: "Naruto", description: "A young ninja striving to become the strongest.", image: "naruto.jpg" },
+        { title: "Attack on Titan", description: "Humanity's struggle against gigantic humanoid Titans.", image: "attack-on-titan.jpg" },
+        { title: "Demon Slayer", description: "A boy becomes a demon slayer to avenge his family.", image: "demon-slayer.jpg" },
+        { title: "Classroom of the Elite", description: "Students compete in an elite high school.", image: "classroom-elite.jpg" },
+        { title: "Monster", description: "A doctor chases a monstrous serial killer.", image: "monster.jpg" },
+        { title: "Tokyo Ghoul", description: "A young man becomes a half-ghoul.", image: "tokyo-ghoul.jpg" },
+        { title: "Jujutsu Kaisen", description: "A boy fights curses to protect humanity.", image: "jujutsu-kaisen.jpg" },
+        { title: "Blue Lock", description: "Strikers compete in a soccer program.", image: "blue-lock.jpg" },
+        { title: "Darker than Black", description: "Contractors with supernatural powers.", image: "darker-than-black.jpg" },
+        { title: "Wind Breaker", description: "Cycling adventures of a high school student.", image: "wind-breaker.jpg" },
+        { title: "Tokyo Revengers", description: "A man travels back in time to save his friends.", image: "tokyo-revengers.jpg" },
+        { title: "Perfect Blue", description: "A pop idol's life turns into a nightmare.", image: "perfect-blue.jpg" },
+        { title: "Serial Experiments Lain", description: "A girl becomes entangled in a virtual world.", image: "serial-experiments-lain.jpg" },
+        { title: "Bungo Stray Dogs", description: "Detectives with supernatural abilities.", image: "bungo-stray-dogs.jpg" },
+        { title: "Spy x Family", description: "A spy's family must stay undercover.", image: "spy-x-family.jpg" },
+        { title: "Psycho Pass", description: "A dystopian future with advanced crime detection.", image: "psycho-pass.jpg" },
+        { title: "Mononoke", description: "A medicine seller battles evil spirits.", image: "mononoke.jpg" },
+        { title: "Deathnote", description: "A student gains a notebook that can kill.", image: "deathnote.jpg" },
+        { title: "Steins;Gate: A Tale of Time and Transformation", description: "Time travel and its consequences.", image: "steins-gate.jpg" },
+        { title: "Hell's Paradise", description: "A ninja's quest for immortality.", image: "hells-paradise.jpg" },
+        { title: "Chainsaw Man", description: "A boy merges with his pet devil.", image: "chainsaw-man.jpg" },
+        { title: "Bleach", description: "A teenager becomes a Soul Reaper.", image: "bleach.jpg" },
+        { title: "Your Lie in April", description: "A pianist's journey through loss and love.", image: "your-lie-in-april.jpg" },
+        { title: "Neon Genesis Evangelion", description: "Mecha battles to save humanity.", image: "neon-genesis-evangelion.jpg" },
+        { title: "Aku no Hana", description: "A boy's life turns dark after a theft.", image: "aku-no-hana.jpg" },
+        { title: "Erased", description: "A man travels back in time to prevent murders.", image: "erased.jpg" },
+        { title: "Berserk", description: "A warrior's dark and violent journey.", image: "berserk.jpg" },
+        { title: "Paranoia Agent", description: "A mysterious boy attacks Tokyo citizens.", image: "paranoia-agent.jpg" },
+        { title: "Elfen Lied", description: "A girl with deadly powers escapes captivity.", image: "elfen-lied.jpg" },
+        { title: "Hell Girl", description: "A website offers vengeance for a price.", image: "hell-girl.jpg" },
+        { title: "Zankyou no Terror", description: "Two boys commit terrorist acts in Tokyo.", image: "zankyou-no-terror.jpg" },
+        { title: "Parasyte", description: "A boy battles alien parasites.", image: "parasyte.jpg" },
+        { title: "Your Name", description: "Two teens switch bodies and fall in love.", image: "your-name.jpg" },
+        { title: "Grave of the Fireflies", description: "Siblings struggle to survive in wartime Japan.", image: "grave-of-the-fireflies.jpg" },
+        { title: "I Want to Eat Your Pancreas", description: "A boy bonds with a terminally ill girl.", image: "i-want-to-eat-your-pancreas.jpg" },
+        { title: "Spirited Away", description: "A girl navigates a magical world to save her parents.", image: "spirited-away.jpg" },
+        { title: "A Silent Voice", description: "A boy seeks redemption for bullying a deaf girl.", image: "a-silent-voice.jpg" },
+        { title: "Suzume", description: "A girl's journey to close supernatural doors.", image: "suzume.jpg" }
+    ],
+    series: [
+        { title: "Breaking Bad", description: "A high school chemistry teacher turned methamphetamine producer.", image: "breaking-bad.jpg", episodes: [{ title: "Episode 1", description: "Pilot", image: "episode1.jpg" }, { title: "Episode 2", description: "Cat's in the Bag...", image: "episode2.jpg" }] },
+        { title: "Stranger Things", description: "A group of kids uncovering supernatural occurrences in their town.", image: "stranger-things.jpg", episodes: [{ title: "Episode 1", description: "The Vanishing of Will Byers", image: "episode1.jpg" }, { title: "Episode 2", description: "The Weirdo on Maple Street", image: "episode2.jpg" }] },
+        { title: "Peaky Blinders", description: "A gangster family in 1900s England.", image: "peaky-blinders.jpg", episodes: [{ title: "Episode 1", description: "Episode 1", image: "episode1.jpg" }, { title: "Episode 2", description: "Episode 2", image: "episode2.jpg" }] }
+    ],
+    games: [
+        { title: "The Legend of Zelda", description: "An action-adventure game featuring Link and Zelda.", image: "zelda.jpg" },
+        { title: "Minecraft", description: "A sandbox game that allows players to build and explore worlds.", image: "minecraft.jpg" },
+        { title: "PUBG Mobile", description: "A battle royale game where players fight to be the last one standing.", image: "pubg-mobile.jpg" }
+    ]
+};
+#include <stdio.h>
+#include "data.h"
+
+int main() {
+    printf("Content-Type: text/html\n\n");
+    printf("<!DOCTYPE html>\n");
+    printf("<html>\n");
+    printf("<head>\n");
+    printf("<title>Anime, Series, and Games</title>\n");
+    printf("<style>\n");
+    printf("body { font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f4f4f4; }\n");
+    printf("header { background-color: #333; color: #fff; padding: 10px 0; text-align: center; }\n");
+    printf("header h1 { margin: 0; }\n");
+    printf("nav ul { list-style-type: none; padding: 0; }\n");
+    printf("nav ul li { display: inline; margin: 0 15px; }\n");
+    printf("nav ul li a { color: #fff; text-decoration: none; }\n");
+    printf("main { padding: 20px; }\n");
+    printf(".grid { display: flex; flex-wrap: wrap; gap: 20px; }\n");
+    printf(".card { background-color: #fff; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); overflow: hidden; width: calc(33.333% - 20px); }\n");
+    printf(".card img { width: 100%; height: auto; }\n");
+    printf(".card h3 { margin: 10px; }\n");
+    printf(".card p { margin: 10px; color: #666; }\n");
+    printf("footer { background-color: #333; color: #fff; text-align: center; padding: 10px 0; position: fixed; width: 100%; bottom: 0; }\n");
+    printf("</style>\n");
+    printf("</head>\n");
+    printf("<body>\n");
+    printf("<header>\n");
+    printf("<h1>Anime, Series, and Games</h1>\n");
+    printf("</header>\n");
+    printf("<nav>\n");
+    printf("<ul>\n");
+    printf("<li><a href=\"#anime\">Anime</a></li>\n");
+    printf("<li><a href=\"#series\">Series</a></li>\n");
+    printf("<li><a href=\"#games\">Games</a></li>\n");
+    printf("</ul>\n");
+    printf("</nav>\n");
+    printf("<main>\n");
+    printf("<div class=\"grid\" id=\"anime\">\n");
+    printf("<h2>Anime</h2>\n");
+    printf("<div id=\"anime-list\">\n");
+    for (int i = 0; i < ANIME_COUNT; i++) {
+        printf("<div class=\"card\">\n");
+        printf("<img src=\"%s\" alt=\"%s\">\n", animeList[i].image, animeList[i].title);
+        printf("<h3>%s</h3>\n", animeList[i].title);
+        printf("<p>%s</p>\n", animeList[i].description);
+        printf("</div>\n");
+    }
+    printf("</div>\n");
+    printf("</div>\n");
+    printf("<div class=\"grid\" id=\"series\">\n");
+    printf("<h2>Series</h2>\n");
+    printf("<div id=\"series-list\">\n");
+    for (int i = 0; i < SERIES_COUNT; i++) {
+        printf("<div class=\"card\">\n");
+        printf("<img src=\"%s\" alt=\"%s\">\n", seriesList[i].image, seriesList[i].title);
+        printf("<h3>%s</h3>\n", seriesList[i].title);
+        printf("<p>%s</p>\n", seriesList[i].description);
+        printf("</div>\n");
+    }
+    printf("</div>\n");
+    printf("</div>\n");
+    printf("<div class=\"grid\" id=\"games\">\n");
+    printf("<h2>Games</h2>\n");
+    printf("<div id=\"games-list\">\n");
+    for (int i = 0; i < GAMES_COUNT; i++) {
+        printf("<div class=\"card\">\n");
+        printf("<img src=\"%s\" alt=\"%s\">\n", gamesList[i].image, gamesList[i].title);
+        printf("<h3>%s</h3>\n", gamesList[i].title);
+        printf("<p>%s</p>\n", gamesList[i].description);
+        printf("</div>\n");
+    }
+    printf("</div>\n");
+    printf("</div>\n");
+    printf("</main>\n");
+    printf("<footer>\n");
+    printf("© 2024 Anime, Series, and Games. All rights reserved.\n");
+    printf("</footer>\n");
+    printf("</body>\n");
+    printf("</html>\n");
+
+    return 0;
+}
+#ifndef DATA_H
+#define DATA_H
+
+#define ANIME_COUNT 43
+#define SERIES_COUNT 22
+#define GAMES_COUNT 5
+
+typedef struct {
+    char title[50];
+    char description[200];
+    char image[50];
+} Item;
+
+Item animeList[ANIME_COUNT] = {
+    // Insert anime items here
+};
+
+Item seriesList[SERIES_COUNT] = {
+    // Insert series items here
+};
+
+Item gamesList[GAMES_COUNT] = {
+    // Insert games items here
+};
+
+#endif
+gcc -o main main.c
+./main > index.html
